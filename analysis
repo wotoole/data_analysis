@@ -1,0 +1,454 @@
+import sqlite3
+import time
+import datetime
+import random
+import numpy as np
+import pandas as pd
+from pandas import DataFrame
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+##from matplotlib import style
+##style.use('fivethirtyeight')
+
+conn = sqlite3.connect('DATABASE_NAME')
+c = conn.cursor()
+weekly_transactions = []
+first_transactions = []
+week = [-10,-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+returning_patrons = []
+
+
+def create_table():
+    c.execute('CREATE TABLE IF NOT EXISTS cbord(id INTEGER, insertion_time DATETIME, terminal_id STRING, transaction_type STRING, university_name STRING, store_name STRING, cashless_id INTEGER, first_name STRING, middle_name STRING, last_name STRING, amount INTEGER, interchange NUMERIC, fee NUMERIC, status STRING, entry_mode STRING)')
+
+##Uncomment and change file path to make data entry from CSV file. (Check column headers before running)
+##read_clients = pd.read_csv ("FILE_PATH)
+##read_clients.to_sql('cbord', conn, if_exists='append', index = False)
+
+def transaction_count():
+    c.execute("SELECT * FROM cbord;")
+    transactions = c.fetchall()
+    print("Total number of Transactions = ", len(transactions))
+
+##Call the function unique() to determine the total number of unique patrons
+def unique():
+    c.execute("SELECT DISTINCT cashless_id FROM cbord;")
+    patrons = c.fetchall()
+    print("Number of unique patrons = ", len(patrons))
+    
+##Call the function one() to determine the number of patrons completing exactly one transaction
+def one():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 1;")
+    count = c.fetchall()
+    print("Number of patrons exactly one transaction = ", len(count))
+
+##Call the function two() to determine the number of patrons completing exactly two transactions
+def two():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 2;")
+    count = c.fetchall()
+    print("Number of patrons exactly two transactions = ", len(count))
+
+##Call the function three() to determine the number of patrons completing exactly three transactions
+def three():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 3;")
+    count = c.fetchall()
+    print("Number of patrons exactly three transactions = ", len(count))
+
+##Call the function four() to determine the number of patrons completing exactly four transactions    
+def four():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 4;")
+    count = c.fetchall()
+    print("Number of patrons exactly four transactions = ", len(count))
+
+##Call the function five() to determine the number of patrons completing exactly five transactions
+def five():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 5;")
+    count = c.fetchall()
+    print("Number of patrons exactly five transactions = ", len(count))
+
+##Call the function six() to determine the number of patrons completing exactly six transactions
+def six():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 6;")
+    count = c.fetchall()
+    print("Number of patrons exactly six transactions = ", len(count))
+
+##Call the function seven() to determine the number of patrons completing exactly seven transactions
+def seven():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 7;")
+    count = c.fetchall()
+    print("Number of patrons exactly seven transactions = ", len(count))
+
+##Call the function eight() to determine the number of patrons completing exactly eight transactions
+def eight():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 8;")
+    count = c.fetchall()
+    print("Number of patrons exactly eight transactions = ", len(count))
+
+##Call the function nine() to determine the number of patrons completing exactly nine transactions
+def nine():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 9;")
+    count = c.fetchall()
+    print("Number of patrons exactly nine transactions = ", len(count))
+
+##Call the function ten() to determine the number of patrons completing exactly ten transactions
+def ten():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 10;")
+    count = c.fetchall()
+    print("Number of patrons exactly ten transactions = ", len(count))
+
+##Call the function eleven() to determine the number of patrons completing exactly eleven transactions
+def eleven():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 11;")
+    count = c.fetchall()
+    print("Number of patrons exactly eleven transactions = ", len(count))
+
+def twelve():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 12;")
+    count = c.fetchall()
+    print("Number of patrons exactly tweleve transactions = ", len(count))
+
+def thirteen():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 13;")
+    count = c.fetchall()
+    print("Number of patrons exactly thirteen transactions = ", len(count))
+
+def fourteen():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 14;")
+    count = c.fetchall()
+    print("Number of patrons exactly fourteen transactions = ", len(count))
+
+def fifteen():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 15;")
+    count = c.fetchall()
+    print("Number of patrons exactly fifteen transactions = ", len(count))
+
+def sixteen():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 16;")
+    count = c.fetchall()
+    print("Number of patrons exactly sixteen transactions = ", len(count))
+
+def seventeen():
+    c.execute("SELECT cashless_id FROM cbord GROUP BY cashless_id HAVING COUNT(*) = 17;")
+    count = c.fetchall()
+    print("Number of patrons exactly seventeen transactions = ", len(count))
+    
+##Call the function multi() to determine the number of patrons completing multi pack transactions
+def multi():
+    c.execute("SELECT * FROM cbord WHERE amount > 33;")
+    count = c.fetchall()
+    print("Number of multi pack transactions = ", len(count))
+    
+##Call the function perweek() to determine the number of transactions in a  week
+def perweek():
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-08-18' AND insertion_time < '2019-08-25';")
+    weekmin10 = c.fetchall()
+    weekly_transactions.append(len(weekmin10))
+##    print("Number of transactions week -10 = ", len(weekmin10))
+    
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-08-25' AND insertion_time < '2019-09-01';")
+    weekmin9 = c.fetchall()
+    weekly_transactions.append(len(weekmin9))
+##    print("Number of transactions week -9 = ", len(weekmin9))
+    
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-09-01' AND insertion_time < '2019-09-08';")
+    weekmin8 = c.fetchall()
+    weekly_transactions.append(len(weekmin8))
+##    print("Number of transactions week -8 = ", len(weekmin8))
+    
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-09-08' AND insertion_time < '2019-09-15';")
+    weekmin7 = c.fetchall()
+    weekly_transactions.append(len(weekmin7))
+##    print("Number of transactions week -7 = ", len(weekmin7))
+    
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-09-15' AND insertion_time < '2019-09-22';")
+    weekmin6 = c.fetchall()
+    weekly_transactions.append(len(weekmin6))
+##    print("Number of transactions week -6 = ", len(weekmin6))
+    
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-09-22' AND insertion_time < '2019-09-29';")
+    weekmin5 = c.fetchall()
+    weekly_transactions.append(len(weekmin5))
+##    print("Number of transactions week -5 = ", len(weekmin5))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-09-29' AND insertion_time < '2019-10-06';")
+    weekmin4 = c.fetchall()
+    weekly_transactions.append(len(weekmin4))
+##    print("Number of transactions week -4 = ", len(weekmin4))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-10-06' AND insertion_time < '2019-10-13';")
+    weekmin3 = c.fetchall()
+    weekly_transactions.append(len(weekmin3))
+##    print("Number of transactions week -3 = ", len(weekmin3))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-10-13' AND insertion_time < '2019-10-20';")
+    weekmin2 = c.fetchall()
+    weekly_transactions.append(len(weekmin2))
+##    print("Number of transactions week -2 = ", len(weekmin2))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-10-20' AND insertion_time < '2019-10-27';")
+    weekmin1 = c.fetchall()
+    weekly_transactions.append(len(weekmin1))
+##    print("Number of transactions week -1 = ", len(weekmin1))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-10-27' AND insertion_time < '2019-11-03';")
+    week0 = c.fetchall()
+    weekly_transactions.append(len(week0))
+##    print("Number of transactions week 0 = ", len(week0))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-11-03' AND insertion_time < '2019-11-10';")
+    week1 = c.fetchall()
+    weekly_transactions.append(len(week1))
+##    print("Number of transactions week 1 = ", len(week1))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-11-10' AND insertion_time < '2019-11-17';")
+    week2 = c.fetchall()
+    weekly_transactions.append(len(week2))
+##    print("Number of transactions week 2 = ", len(week2))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-11-17' AND insertion_time < '2019-11-24';")
+    week3 = c.fetchall()
+    weekly_transactions.append(len(week3))
+##    print("Number of transactions week 3 = ", len(week3))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-11-24' AND insertion_time < '2019-12-01';")
+    week4 = c.fetchall()
+    weekly_transactions.append(len(week4))
+##    print("Number of transactions week 4 = ", len(week4))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-12-01' AND insertion_time < '2019-12-08';")
+    week5 = c.fetchall()
+    weekly_transactions.append(len(week5))
+##    print("Number of transactions week 5 = ", len(week5))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-12-08' AND insertion_time < '2019-12-15';")
+    week6 = c.fetchall()
+    weekly_transactions.append(len(week6))
+##    print("Number of transactions week 6 = ", len(week6))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-12-15' AND insertion_time < '2019-12-22';")
+    week7 = c.fetchall()
+    weekly_transactions.append(len(week7))
+##    print("Number of transactions week 7 = ", len(week7))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-12-22' AND insertion_time < '2019-12-29';")
+    week8 = c.fetchall()
+    weekly_transactions.append(len(week8))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2019-12-29' AND insertion_time < '2020-01-05';")
+    week9 = c.fetchall()
+    weekly_transactions.append(len(week9))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-01-05' AND insertion_time < '2020-01-12';")
+    week10 = c.fetchall()
+    weekly_transactions.append(len(week10))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-01-12' AND insertion_time < '2020-01-19';")
+    week11 = c.fetchall()
+    weekly_transactions.append(len(week11))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-01-19' AND insertion_time < '2020-01-26';")
+    week12 = c.fetchall()
+    weekly_transactions.append(len(week12))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-01-26' AND insertion_time < '2020-02-02';")
+    week13 = c.fetchall()
+    weekly_transactions.append(len(week13))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-02-02' AND insertion_time < '2020-02-09';")
+    week14 = c.fetchall()
+    weekly_transactions.append(len(week14))
+
+    c.execute("SELECT * FROM cbord WHERE insertion_time > '2020-02-09' AND insertion_time < '2020-02-16';")
+    week15 = c.fetchall()
+    weekly_transactions.append(len(week15))
+
+
+##Call the function first() to determine the number of patrons completing their first transaction in a week
+def first():
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-08-25';")
+    first_trans_min10 = len(c.fetchall())
+##    print("Week -10 new users = ", first_trans_min10)
+    first_transactions.append(first_trans_min10)
+    
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-09-01';")
+    first_trans_min9 = len(c.fetchall()) - first_trans_min10
+##    print("Week -9 new users = ", first_trans_min9)
+    first_transactions.append(first_trans_min9)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-09-08';")
+    first_trans_min8 = len(c.fetchall()) - first_trans_min10 - first_trans_min9
+##    print("Week -8 new users = ", first_trans_min8)
+    first_transactions.append(first_trans_min8)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-09-15';")
+    first_trans_min7 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8
+##    print("Week -7 new users = ", first_trans_min7)
+    first_transactions.append(first_trans_min7)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-09-22';")
+    first_trans_min6 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7
+##    print("Week -6 new users = ", first_trans_min6)
+    first_transactions.append(first_trans_min6)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-09-29';")
+    first_trans_min5 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6
+##    print("Week -5 new users = ", first_trans_min5)
+    first_transactions.append(first_trans_min5)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-10-06';")
+    first_trans_min4 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5
+##    print("Week -4 new users = ", first_trans_min4)
+    first_transactions.append(first_trans_min4)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-10-13';")
+    first_trans_min3 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4
+##    print("Week -3 new users = ", first_trans_min3)
+    first_transactions.append(first_trans_min3)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-10-20';")
+    first_trans_min2 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3
+##    print("Week -2 new users = ", first_trans_min2)
+    first_transactions.append(first_trans_min2)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-10-27';")
+    first_trans_min1 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2
+##    print("Week -1 new users = ", first_trans_min1)
+    first_transactions.append(first_trans_min1)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-11-03';")
+    first_trans_0 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1
+##    print("Week 0 new users = ", first_trans_0)
+    first_transactions.append(first_trans_0)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-11-10';")
+    first_trans_1 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0
+##    print("Week 1 new users = ", first_trans_1)
+    first_transactions.append(first_trans_1)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-11-17';")
+    first_trans_2 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1
+##    print("Week 2 new users = ", first_trans_2)
+    first_transactions.append(first_trans_2)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-11-24';")
+    first_trans_3 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2
+##    print("Week 3 new users = ", first_trans_3)
+    first_transactions.append(first_trans_3)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-12-01';")
+    first_trans_4 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3
+##    print("Week 4 new users = ", first_trans_4)
+    first_transactions.append(first_trans_4)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-12-08';")
+    first_trans_5 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4
+##    print("Week 5 new users = ", first_trans_5)
+    first_transactions.append(first_trans_5)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-12-15';")
+    first_trans_6 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5
+##    print("Week 6 new users = ", first_trans_6)
+    first_transactions.append(first_trans_6)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-12-22';")
+    first_trans_7 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6
+##    print("Week 7 new users = ", first_trans_7)
+    first_transactions.append(first_trans_7)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2019-12-29';")
+    first_trans_8 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7
+##    print("Week 8 new users = ", first_trans_8)
+    first_transactions.append(first_trans_8)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-01-05';")
+    first_trans_9 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8
+##    print("Week 9 new users = ", first_trans_9)
+    first_transactions.append(first_trans_9)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-01-12';")
+    first_trans_10 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9
+##    print("Week 10 new users = ", first_trans_10)
+    first_transactions.append(first_trans_10)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-01-19';")
+    first_trans_11 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9-first_trans_10
+##    print("Week 11 new users = ", first_trans_11)
+    first_transactions.append(first_trans_11)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-01-26';")
+    first_trans_12 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9-first_trans_10-first_trans_11
+##    print("Week 11 new users = ", first_trans_12)
+    first_transactions.append(first_trans_12)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-02-02';")
+    first_trans_13 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9-first_trans_10-first_trans_11-first_trans_12
+##    print("Week 11 new users = ", first_trans_12)
+    first_transactions.append(first_trans_13)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-02-09';")
+    first_trans_14 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9-first_trans_10-first_trans_11-first_trans_12-first_trans_13
+##    print("Week 11 new users = ", first_trans_12)
+    first_transactions.append(first_trans_14)
+
+    c.execute("SELECT DISTINCT cashless_id FROM cbord WHERE insertion_time < '2020-02-09';")
+    first_trans_15 = len(c.fetchall()) - first_trans_min10 - first_trans_min9 - first_trans_min8 - first_trans_min7 - first_trans_min6 - first_trans_min5 - first_trans_min4 - first_trans_min3 - first_trans_min2 - first_trans_min1 - first_trans_0 - first_trans_1 - first_trans_2 - first_trans_3 -first_trans_4-first_trans_5-first_trans_6-first_trans_7-first_trans_8-first_trans_9-first_trans_10-first_trans_11-first_trans_12-first_trans_13-first_trans_14
+##    print("Week 11 new users = ", first_trans_12)
+    first_transactions.append(first_trans_15)
+    
+##Call the function returning() to determine the number of returning patrons in a week
+def returning():
+    for i in range(0,26):
+        returning_patrons.append(weekly_transactions[i] - first_transactions[i])
+        i+=1
+
+create_table()
+transaction_count()
+unique()
+one()
+two()
+three()
+four()
+five()
+six()
+seven()
+eight()
+nine()
+ten()
+eleven()
+twelve()
+thirteen()
+fourteen()
+fifteen()
+sixteen()
+seventeen()
+multi()
+perweek()
+first()
+returning()    
+print("Number of Transactions per week = ", weekly_transactions)
+print("Number of 1st time patrons per week = ", first_transactions)
+print("Number of weeks = ", len(week))
+print('Number of returning patrons per week = ', returning_patrons)
+plt.plot(week, weekly_transactions)
+plt.title('Transactions per Week')
+plt.xlabel('Week')
+plt.ylabel('Transactions')
+plt.xlim([-10,8])
+plt.grid()
+plt.show()
+plt.plot(week, first_transactions)
+plt.title('New Patrons per Week')
+plt.xlabel('Week')
+plt.ylabel('New Patrons')
+plt.xlim([-10,8])
+plt.grid()
+plt.show()
+plt.plot(week, returning_patrons)
+plt.title('Returning Patrons per Week')
+plt.xlabel('Week')
+plt.ylabel('Returning Patrons')
+plt.xlim([-10,8])
+plt.grid()
+plt.show()
+c.close()
+conn.close()
